@@ -36,7 +36,8 @@ form.addEventListener('submit', ev => {
             if (!tasks.hasChildNodes())
                 tasks.parentElement.style.display = 'none';
             document.getElementById('taskTitle').className = 'text-center'
-            document.getElementById('saveBtn').className = 'btn btn-warning text-nowrap px-4'
+            document.getElementById('saveBtn').className = 'btn btn-warning text-nowrap px-4';
+            document.getElementById('saveBtn').removeAttribute('disabled')
         }
     }
 
@@ -53,20 +54,22 @@ form.addEventListener('submit', ev => {
     taskList.push({ text: p.innerText, date: date.innerText});
     document.getElementById('taskTitle').className = 'text-center'
     document.getElementById('saveBtn').className = 'btn btn-warning text-nowrap px-4'
+    document.getElementById('saveBtn').toggleAttribute('disabled', false);
     input.value = "";   
 })
 
 document.getElementById('saveBtn').addEventListener('click', ev => {
-    window.localStorage.setItem('tasks', JSON.stringify(taskList));
+    window.localStorage.setItem('taskItems#4commit', JSON.stringify(taskList));
     const lastSaved = document.getElementById('lastSaved');
     lastSaved.innerText = 'Last saved: ' + new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone});
     window.localStorage.setItem('saved', lastSaved.innerText);
     ev.target.className = 'btn btn-success text-nowrap px-4';
+    ev.target.setAttribute('disabled', true);
     document.getElementById('taskTitle').className = ' text-center text-success';
 })
 
 window.onload = event => {
-    const savedTasks = JSON.parse(window.localStorage.getItem('tasks'));
+    const savedTasks = JSON.parse(window.localStorage.getItem('taskItems#4commit'));
     document.getElementById('lastSaved').innerText = window.localStorage.getItem('saved');
     if (savedTasks.length === 0) return;
     taskList.push(...savedTasks);
@@ -108,6 +111,7 @@ function render(text, dateStr) {
                 tasks.parentElement.style.display = 'none';
             document.getElementById('taskTitle').className = 'text-center'
             document.getElementById('saveBtn').className = 'btn btn-warning text-nowrap px-4'
+            document.getElementById('saveBtn').removeAttribute('disabled')
         }
     }
 

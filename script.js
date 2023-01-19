@@ -21,8 +21,8 @@ form.addEventListener('submit', ev => {
     button.innerText = 'done';
     button.onclick = e => {
         e.target.parentElement.className += ' bg-success'
-        let doneDate = new Date().toUTCString();
-        e.target.parentElement.lastChild.innerHTML = doneDate.slice(0, 16) + '<br>' + doneDate.slice(16);;
+        let doneDate = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
+        e.target.parentElement.lastChild.innerHTML = doneDate.slice(0, 10) + '<br>' + doneDate.slice(10);;
         e.target.innerText = 'remove';
         e.target.onclick = ev => {
             ev.target.parentElement.remove();

@@ -43,8 +43,10 @@ form.addEventListener('submit', ev => {
     const date = document.createElement('p');
     date.className = 'text-nowrap';
 
-    let dateStr = new Date().toUTCString();
-    date.innerHTML = dateStr.slice(0, 16) + '<br>' + dateStr.slice(16);
+    // let dateStr = new Date().toUTCString();
+    let dateStr = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
+    date.innerHTML = dateStr.slice(0, 10) + '<br>' + dateStr.slice(10);
+    
 
     container.append(p, button, date);
     tasks.appendChild(container);
@@ -57,7 +59,7 @@ form.addEventListener('submit', ev => {
 document.getElementById('saveBtn').addEventListener('click', ev => {
     window.localStorage.setItem('tasks', JSON.stringify(taskList));
     const lastSaved = document.getElementById('lastSaved');
-    lastSaved.innerText = 'Last saved: ' + new Date().toUTCString();
+    lastSaved.innerText = 'Last saved: ' + new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone});
     window.localStorage.setItem('saved', lastSaved.innerText);
     ev.target.className = 'btn btn-success text-nowrap px-4';
     document.getElementById('taskTitle').className = ' text-center text-success';
@@ -111,7 +113,7 @@ function render(text, dateStr) {
 
     const date = document.createElement('p');
     date.className = 'text-nowrap';
-    date.innerHTML = dateStr.slice(0, 16) + '<br>' + dateStr.slice(16);
+    date.innerHTML = dateStr.slice(0, 10) + '<br>' + dateStr.slice(10);
 
     container.append(p, button, date);
     tasks.appendChild(container);

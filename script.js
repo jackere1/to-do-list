@@ -8,12 +8,11 @@ async function loadGreeting() {
     if (!el) return;
 
     try {
-        const res = await fetch('https://hellosalut.stefanbohacek.com/?mode=auto');
+        const res = await fetch('https://zenquotes.io/api/random');
         if (!res.ok) throw new Error('Network response was not ok');
-        const data = await res.json();
-        if (data && data.hello) {
-            // Use the API greeting and append a small subtitle
-            el.innerText = data.hello + ' — To-Do List';
+        const [data] = await res.json();
+        if (data && data.q) {
+            el.innerText = data.q;
         } else {
             el.innerText = 'WELCOME TO TO-DO-LIST';
         }

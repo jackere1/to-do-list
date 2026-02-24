@@ -8,7 +8,7 @@ async function loadGreeting() {
     if (!el) return;
 
     try {
-        const res = await fetch('https://fourtonfish.com/hellosalut/');
+        const res = await fetch('https://hellosalut.stefanbohacek.com/?mode=auto');
         if (!res.ok) throw new Error('Network response was not ok');
         const data = await res.json();
         if (data && data.hello) {

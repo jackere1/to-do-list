@@ -1,6 +1,28 @@
 const form = document.getElementById('form');
 
 var taskList = [];
+
+// Fetch a dynamic greeting from a free API and set it into #greeting
+async function loadGreeting() {
+    const el = document.getElementById('greeting');
+    if (!el) return;
+
+    try {
+        const res = await fetch('https://fourtonfish.com/hellosalut/');
+        if (!res.ok) throw new Error('Network response was not ok');
+        const data = await res.json();
+        if (data && data.hello) {
+            // Use the API greeting and append a small subtitle
+            el.innerText = data.hello + ' — To-Do List';
+        } else {
+            el.innerText = 'WELCOME TO TO-DO-LIST';
+        }
+    } catch (err) {
+        console.error('Failed to load greeting:', err);
+        el.innerText = 'WELCOME TO TO-DO-LIST';
+    }
+}
+
 form.addEventListener('submit', ev => {
     ev.preventDefault();
 
@@ -48,7 +70,6 @@ form.addEventListener('submit', ev => {
     let dateStr = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
     date.innerHTML = dateStr.slice(0, 10) + '<br>' + dateStr.slice(10);
     
-
     container.append(p, button, date);
     tasks.appendChild(container);
     taskList.push({ text: p.innerText, date: date.innerText});
@@ -69,7 +90,10 @@ document.getElementById('saveBtn').addEventListener('click', ev => {
 })
 
 window.onload = event => {
-    const savedTasks = JSON.parse(window.localStorage.getItem('taskItems#4commit'));
+    // Load dynamic greeting (non-blocking)
+    loadGreeting();
+
+    const savedTasks = JSON.parse(window.localStorage.getItem('taskItems#4commit')) || [];
     document.getElementById('lastSaved').innerText = window.localStorage.getItem('saved');
     if (savedTasks.length === 0) return;
     taskList.push(...savedTasks);
@@ -122,4 +146,3 @@ function render(text, dateStr) {
     container.append(p, button, date);
     tasks.appendChild(container);
 }
-// document.getElementsByClassName('removeBtn')[0].parentElement.remove();

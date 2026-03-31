@@ -49,7 +49,7 @@ form.addEventListener('submit', ev => {
         e.target.onclick = ev => {
             ev.target.parentElement.remove();
             let text = ev.target.parentElement.firstChild.innerText;
-            taskList = taskList.filter(elm => elm.date !== oldDate);
+            taskList = taskList.filter(elm => (new Date(elm.date)).getTime() !== (new Date(oldDate)).getTime());
             if (!tasks.hasChildNodes())
                 tasks.parentElement.style.display = 'none';
             document.getElementById('taskTitle').className = 'text-center'

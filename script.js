@@ -14,11 +14,11 @@ async function loadGreeting() {
         if (data && data.quote) {
             el.innerText = `"${data.quote}" — ${data.author}`;
         } else {
-            el.innerText = 'WELCOME TO TO-DO-LIST';
+            el.innerText = 'Tasks';
         }
     } catch (err) {
         console.error('Failed to load greeting:', err);
-        el.innerText = 'WELCOME TO TO-DO-LIST';
+        el.innerText = 'No quotes today. Tasks:';
     }
 }
 
@@ -43,17 +43,13 @@ form.addEventListener('submit', ev => {
     button.onclick = e => {
         e.target.parentElement.className += ' bg-success'
         let doneDate = new Date().toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})
+        let oldDate = e.target.parentElement.lastChild.innerHTML.replace('<br>', '');
         e.target.parentElement.lastChild.innerHTML = doneDate.slice(0, 10) + '<br>' + doneDate.slice(10);
         e.target.innerText = 'remove';
         e.target.onclick = ev => {
             ev.target.parentElement.remove();
             let text = ev.target.parentElement.firstChild.innerText;
-            taskList = taskList.filter(elm => {
-                if (elm.text === text)
-                    return false;
-
-                return true;
-            })
+            taskList = taskList.filter(elm => elm.date !== oldDate);
             if (!tasks.hasChildNodes())
                 tasks.parentElement.style.display = 'none';
             document.getElementById('taskTitle').className = 'text-center'
